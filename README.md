@@ -24,7 +24,7 @@ npm install crypto-js --save
 ```
 npm install level --save
 ```
-- Install hapi 
+- Install hapijs with --save flag
 ```
 npm install hapi --save
 ```
