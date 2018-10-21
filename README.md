@@ -67,10 +67,10 @@ blockchain.validateChain();
 ## Rest API Blockchain
 This is an example of how to insert and verify data in blockchain.
 
-###Run the server
+### Run the server
 
 - By default the server runs at localhost: 8000.
-``
+
 - Use npm to start application .
 ```
 npm start
@@ -79,22 +79,24 @@ npm start
 ### Get a specific Block
 
 #### URL
-
+```
 /block/:number
+```
 
 #### Method:
-
+```
 GET
+```
 
 #### URL Params
 
 ##### Required:
-
+```
 block=[integer]
-
+```
 
 #### Success Response:
-
+```
 Code: 200 
 Content: 
 {
@@ -104,16 +106,16 @@ Content:
     "time": "1539547320",
     "previousBlockHash": ""
 }
+```
 
 #### Error Response:
-
+```
 Code: 404 NOT FOUND 
 Content: { error : message error }
-
-
+```
 
 #### Sample Call:
-
+```
   $.ajax({
     url: "/block/0",
     dataType: "json",
@@ -122,23 +124,27 @@ Content: { error : message error }
       console.log(r);
     }
   });
+```
 
 ### Insert data in Blockchain
 
 #### URL
-
+```
 /block
+```
 
 #### Method:
-
+```
 POST
+```
 
 #### Data Params
-
+```
  blockText = [string]
+ ```
 
 #### Success Response:
-
+```
 Code: 200 
 Content: 
 {
@@ -148,9 +154,10 @@ Content:
     "time": "1540086270",
     "previousBlockHash": "fb33ad8847f9315f8aad0fe098afb7941f7b3afd15e0f8a1f736300be0f36acb"
 }
+```
 
 #### Sample Call:
-
+```
   $.ajax({
     url: "/block",
     method : "POST",
@@ -163,7 +170,7 @@ Content:
       console.log(r);
     }
   });
-
+```
 
 
 
