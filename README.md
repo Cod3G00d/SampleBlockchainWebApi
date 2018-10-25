@@ -92,7 +92,7 @@ GET
 
 ##### Required:
 ```
-block=[integer]
+number=[integer]
 ```
 
 #### Success Response:
@@ -143,7 +143,7 @@ POST
 
 #### Data Params
 ```
- blockText = [string]
+ body = [string]
  ```
 
 #### Success Response:
@@ -164,7 +164,7 @@ Content:
 {
     "statusCode": Code,
     "error": Error,
-    "message": message error
+    "message": Message error
 }
 ```
 
