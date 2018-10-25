@@ -13,6 +13,7 @@ const Block = require('./simpleBlock.js');
 
 class Blockchain {
     constructor() {
+
         DL.getBlockHeight().then((height) => {
             if (height == -1) {
                 console.log("Genesis");
@@ -26,12 +27,25 @@ class Blockchain {
     }
 
 
+
+    async getBlockHeight() {
+        return new Promise((resolve, reject) => {
+            DL.getBlockHeight().then((value) => {
+                resolve(value);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
     async getBlock(heigth) {
         return new Promise((resolve, reject) => {
             DL.getBlock(heigth).then((value) => {
-                 let block = JSON.parse(value);
-                 //console.log(block);
-                 resolve(block);
+                let block = JSON.parse(value);
+                //console.log(block);
+                resolve(block);
+            }).catch((err) => {
+                reject(err);
             });
         });
     }
@@ -40,9 +54,6 @@ class Blockchain {
     addBlock(newBlock) {
         return new Promise((resolve, reject) => {
             DL.getBlockHeight().then((height) => {
-                console.log("Teste");
-                console.log(height);
-                console.log(newBlock);
                 // Block height
                 newBlock.height = height + 1;
                 // UTC timestamp

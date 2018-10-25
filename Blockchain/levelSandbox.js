@@ -10,16 +10,14 @@ const db = level(chainDB);
 function addLevelDBData(key, value) {
   return new Promise((resolve, reject) => {
     db.put(key, JSON.stringify(value), function (err) {
-      console.log(value);
       if (err) reject(err);
     })
   });
 }
 
- exports.addLevelDBData =function(key, value) {
+exports.addLevelDBData = function (key, value) {
   return new Promise((resolve, reject) => {
     db.put(key, JSON.stringify(value), function (err) {
-      console.log(value);
       if (err) reject(err);
     })
   });
@@ -30,10 +28,13 @@ function addLevelDBData(key, value) {
 exports.getBlock = function (blockHeight) {
   return new Promise((resolve, reject) => {
     db.get(blockHeight, function (err, value) {
-      if (err) return console.log('Not found!', err);
-      resolve(JSON.parse(JSON.stringify(value)));
-    })
-  });
+      if (err) {
+        reject(err);
+      } else {
+        resolve(JSON.parse(JSON.stringify(value)));
+      }
+    });
+  })
 }
 
 
@@ -49,8 +50,9 @@ exports.getBlockHeight = function () {
     }).on('close', function () {
       resolve(i - 1);
     });
+  }).catch((err) => {
+    reject(err);
   });
-
 }
 
 // Add data to levelDB with value

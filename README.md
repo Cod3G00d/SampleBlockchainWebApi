@@ -110,8 +110,11 @@ Content:
 
 #### Error Response:
 ```
-Code: 404 NOT FOUND 
-Content: { error : message error }
+{
+    "statusCode": Code,
+    "error": Error,
+    "message": message error
+}
 ```
 
 #### Sample Call:
@@ -153,6 +156,15 @@ Content:
     "body": "Just a example text",
     "time": "1540086270",
     "previousBlockHash": "fb33ad8847f9315f8aad0fe098afb7941f7b3afd15e0f8a1f736300be0f36acb"
+}
+```
+
+#### Error Response:
+```
+{
+    "statusCode": Code,
+    "error": Error,
+    "message": message error
 }
 ```
 

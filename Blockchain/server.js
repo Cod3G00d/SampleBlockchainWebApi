@@ -3,6 +3,7 @@
 const Hapi = require('hapi');
 const Blockchain = require('./simpleChain.js');
 const Block = require('./simpleBlock.js');
+const Boom = require('boom');
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -22,9 +23,13 @@ server.route([{
     method: 'GET',
     path: '/block/{height}',
     handler: async function (request, h) {
-        let blockchain = new Blockchain();
-        let block = await blockchain.getBlock(request.params.height);
-        return block;
+        try {
+            let blockchain = new Blockchain();
+            let block = await blockchain.getBlock(request.params.height);
+            return block;
+        } catch (err) {
+            return Boom.badRequest(err.toString());
+        }
     }
 },
 {
@@ -32,16 +37,21 @@ server.route([{
     path: '/block',
     handler: async (request, h) => {
         try {
-            var payload = request.payload.blockText   
-            if (typeof payload != 'undefined' && payload) {
-                let chain = await new Blockchain();
-                let newblock = await chain.addBlock(new Block(payload));
-                return newblock;
+            var payload = request.payload.body
+            if (typeof payload != 'undefined' && typeof payload === 'string') {
+                let chain = new Blockchain();
+                let blockheight = await chain.getBlockHeight();
+                if (blockheight > -1) {
+                    let newblock = await chain.addBlock(new Block(payload));
+                    return newblock;
+                } else {
+                    return Boom.internal();
+                }
             } else {
-                return "Please enter a valid value"
+                throw "Please enter a valid value"
             }
         } catch (err) {
-            console.log(err);
+            return Boom.badRequest(err.toString());
         }
     }
 }
