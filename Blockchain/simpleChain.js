@@ -12,20 +12,25 @@ const Block = require('./simpleBlock.js');
 
 
 class Blockchain {
-    constructor() {
 
-        DL.getBlockHeight().then((height) => {
-            if (height == -1) {
-                console.log("Genesis");
-                let newBlock = new Block("First block in the chain - Genesis block");
-                // UTC timestamp
-                newBlock.time = new Date().getTime().toString().slice(0, -3);
-                newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
-                DL.addDataToBlockchain(newBlock);
-            }
+    async init() {
+        return new Promise((resolve, reject) => {
+            DL.getBlockHeight().then((height) => {
+                if (height == -1) {
+                    console.log("Genesis");
+                    let newBlock = new Block("First block in the chain - Genesis block");
+                    // UTC timestamp
+                    newBlock.time = new Date().getTime().toString().slice(0, -3);
+                    newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
+                    DL.addDataToBlockchain(newBlock);
+                    resolve(true);
+                } else {
+                    //was created
+                    resolve(true);
+                }
+            });
         });
     }
-
 
 
     async getBlockHeight() {
@@ -203,6 +208,7 @@ module.exports = Blockchain;
 // Blocks
 // (function theLoop(i) {
 //     let blockchain = new Blockchain();
+//     blockchain.init();
 //     setTimeout(function () {
 //         let blockTest = new Block("Test Block - " + (i + 1));
 //         blockchain.addBlock(blockTest).then((result) => {

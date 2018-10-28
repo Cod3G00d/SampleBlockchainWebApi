@@ -11,6 +11,17 @@ const server = Hapi.server({
     port: 8000
 });
 
+function criarBlockchain() {
+    return new Promise((resolve, reject) => {
+
+        let Blockchain = new Blockchain();
+        console.log("Entrou");
+        resolve(Blockchain);
+    });
+}
+
+
+
 // Add the route
 server.route([{
     method: 'GET',
@@ -40,13 +51,11 @@ server.route([{
             var payload = request.payload.body
             if (typeof payload != 'undefined' && typeof payload === 'string') {
                 let chain = new Blockchain();
+                let init = await chain.init();
                 let blockheight = await chain.getBlockHeight();
-                if (blockheight > -1) {
-                    let newblock = await chain.addBlock(new Block(payload));
-                    return newblock;
-                } else {
-                    return Boom.internal();
-                }
+                console.log(blockheight);
+                let newblock = await chain.addBlock(new Block(payload));
+                return newblock;
             } else {
                 throw "Please enter a valid value"
             }
